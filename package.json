@@ -1,0 +1,26 @@
+{
+  "name": "avengers-api",
+  "version": "1.0.0",
+  "description": "Avengers API ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chamika196/avengers-api.git"
+  },
+  "keywords": [
+    "Chamika",
+    "Dulaj"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chamika196/avengers-api/issues"
+  },
+  "homepage": "https://github.com/Chamika196/avengers-api#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
