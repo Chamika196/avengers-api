@@ -1,5 +1,5 @@
 const express = require('express'); //imported express module
-const router =  express.Router(); //created an express appication
+const router = express.Router(); //created an express appication
 
 //callback function here is called a route handler
 router.get("/", (req, res) => {

@@ -1,70 +1,90 @@
 const express = require('express'); //imported express module
-const router =  express.Router(); //created an express appication
+const Avenger = require("../models/avenger");
+const router = express.Router(); //created an express appication
 
 let avengerArray = [
-    { id : 1, name: "Captain America"},
-    { id : 2, name: "Thor"},
-    { id : 3, name: "Black Widow"}
+    { id: 1, name: "Captain America" },
+    { id: 2, name: "Thor" },
+    { id: 3, name: "Black Widow" }
 ];
 
 //GET ALL
-router.get("/",(req,res) => {
-    console.log("GET Method called ........ ");
-    res.send(avengerArray);
+router.get("/", async (req, res) => {
+
+    try {
+        let avengers = await Avenger.find().sort({name: "asc"});
+        return res.send(avengers);
+    }
+    catch (ex) {
+        return res.status(500).send("Error: " + ex.message);
+    }
+
 });
 
 //Get with params
-router.get("/:avengerId",(req,res) => {
+router.get("/:avengerId", (req, res) => {
     let avenger = avengerArray.find((a) => a.id == req.params.avengerId);
-    if(!avenger){
+    if (!avenger) {
         return res.status(404).send("The given ID does not exist on our system");
     }
     res.status(200).send(avenger);
 
-}); 
-router.post("/", (req,res) => {
-//valdation
-if(!req.body.avengerName)
-{
-    return res.status(400).send("Not all mandatory values are sent");
-} 
+});
+router.post("/", async (req, res) => {
+    if (!req.body.avengerName) {
+        return res.status(400).send("Not all mandatory values are sent");
+    }
 
-    let newAvengerObj = {
-        id : avengerArray.length + 1,
-        //name : req.body.name
-        name : req.body.avengerName
-    };
-    avengerArray.push(newAvengerObj);
-    res.send(newAvengerObj);
+    try {
+        let avenger = new Avenger({
+            name: req.body.avengerName,
+            birthName: req.body.birthName,
+            movies: req.body.movies,
+            imgUrl: req.body.imgUrl,
+            likeCount: req.body.likeCount,
+            deceased: req.body.deceased
+
+        });
+
+        avenger = await avenger.save();  //save is mongoose method
+        return res.send(avenger);
+
+    }
+    catch (ex) {
+        return res.status(500).send("Error: " + ex.message);
+    }
+
+
+
 });
 
-router.put('/:avengerId', (req,res) => {
-    let avenger = avengerArray.find((a)=>a.id == req.params.avengerId);
+router.put('/:avengerId', (req, res) => {
+    let avenger = avengerArray.find((a) => a.id == req.params.avengerId);
     //let avenger = avengerArray.find(a=>a.id === parseInt(req.params.avengerId));
-    if(!avenger){
-       return res.status(400).send("The given ID does not exist on our system");
+    if (!avenger) {
+        return res.status(400).send("The given ID does not exist on our system");
     }
-//validation
-if(!req.body.avengerName){
-    return res.status(400).send("Not all mandatory values are sent");
+    //validation
+    if (!req.body.avengerName) {
+        return res.status(400).send("Not all mandatory values are sent");
 
-}
-    
+    }
+
 
     avenger.name = req.body.avengerName;
     res.send(avenger);
 
 });
 
-router.delete("/:avengerId",(req,res) => {
+router.delete("/:avengerId", (req, res) => {
     let avenger = avengerArray.find((a) => a.id == req.params.avengerId);
 
-    if(!avenger){
+    if (!avenger) {
         return res.status(404).send("The given ID does not exist on our system");
     }
 
     let indexOfAvenger = avengerArray.indexOf(avenger);
-    avengerArray.splice(indexOfAvenger,1);
+    avengerArray.splice(indexOfAvenger, 1);
 
     res.send(avenger);
 });
