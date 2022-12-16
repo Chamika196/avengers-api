@@ -15,14 +15,14 @@ app.use(authenticator);
 app.use('/api/avengers', avengers);
 app.use('/', home);
 
-app.listen(3000,() => {
+app.listen(3000, () => {
     console.log("Connected..Listening to Port 3000");
-}); 
+});
 
 mongoose.set('strictQuery', true);
 mongoose
-.connect('mongodb://localhost/avengerdb', { useNewUrlParser: true}).then(() => {
-    console.log("Connected to Database successfully");
-}).catch(() => console.log("Error: " + err)); //returing promise
+    .connect('mongodb://localhost/avengerdb', { useNewUrlParser: true }).then(() => {
+        console.log("Connected to Database successfully");
+    }).catch(() => console.log("Error: " + err)); //returing promise
 
 

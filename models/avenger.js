@@ -9,7 +9,7 @@ const avengerSchema = new mongoose.Schema({
     },
     birthname: String,
     movies: {
-        type: [String],
+        type: [Strings],
         enum: ["Infinty War", "Endgame", "Iron Man 2", "First Avenger"] //enum validator
     },
     imgUrl: String,
@@ -19,4 +19,4 @@ const avengerSchema = new mongoose.Schema({
 
 const Avenger = mongoose.model("Avenger", avengerSchema);
 
-module.exports = Avenger;
+module.exports = Avenger
