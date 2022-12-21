@@ -7,9 +7,9 @@ const avengerSchema = new mongoose.Schema({
         maxlength: 20,
         required: true
     },
-    birthname: String,
+    birthName: String,
     movies: {
-        type: [Strings],
+        type: String,
         enum: ["Infinty War", "Endgame", "Iron Man 2", "First Avenger"] //enum validator
     },
     imgUrl: String,

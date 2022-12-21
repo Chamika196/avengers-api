@@ -1,15 +1,27 @@
 const express = require("express"); //imported express module
+const jwt = require("jsonwebtoken");
 const Avenger = require("../models/avenger");
 const router = express.Router(); //created an express appication
 
-let avengerArray = [
-    { id: 1, name: "Captain America" },
-    { id: 2, name: "Thor" },
-    { id: 3, name: "Black Widow" }
-];
+SECRET_KEY = "123456789";
+
+// let avengerArray = [
+//     { id: 1, name: "Captain America" },
+//     { id: 2, name: "Thor" },
+//     { id: 3, name: "Black Widow" }
+// ];
 
 //GET ALL
 router.get("/", async (req, res) => {
+    const token = req.header("x-jwt-token")
+    if(!token) 
+    return res.status(401).send("Access is denied.No token found");
+    try{
+        jwt.verify(token,SECRET_KEY)
+    }
+    catch(ex){
+        return res.status(400).send("Invalid token");
+    }
 
     try {
         let avengers = await Avenger.find().sort({name: "asc"});
@@ -52,6 +64,7 @@ router.post("/", async (req, res) => {
             imgUrl: req.body.imgUrl,
             likeCount: req.body.likeCount,
             deceased: req.body.deceased
+            
 
         });
 
