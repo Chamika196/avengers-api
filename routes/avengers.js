@@ -110,6 +110,24 @@ if (!req.body.likeCount) {
 
 router.delete("/:avengerId", async (req, res) => {
 
+    const token = req.header("x-jwt-token")
+    if(!token) 
+    return res.status(401).send("Access is denied.No token found");
+
+    //checking whether valid and authenticated
+    try{
+        jwt.verify(token,SECRET_KEY)
+    }
+    catch(ex){
+        return res.status(400).send("Invalid token");
+    }
+
+    let decoded = jwt.decode(token, SECRET_KEY);
+
+    if(!decoded.isAdmin){
+        return res.status(403).send("Forbidden. You don't access to this endpoint");
+    }
+
     try{
         let avenger =await Avenger.findOneAndDelete({_id: req.params.avengerId})
         return res.send(avenger);
