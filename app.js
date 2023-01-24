@@ -9,8 +9,8 @@ const logger = require('./middleware/logger');
 const authenticator = require('./middleware/authenticator');
 const app = express(); //created an express appication
 
-var Port =process.env.PORT || 8080;
-var database = require('./config/database');
+//var Port =process.env.PORT || 8080;
+//var database = require('./config/database');
 app.use(cors());
 app.use(express.json()); //parse json object ; telling app to use inbuilt middleware
 //express = null;
@@ -27,11 +27,11 @@ app.listen(5000, () => {
     console.log("Connected..Listening to Port 5000");
 });
 
-//mongoose.set('strictQuery', true);
-//mongoose
- //   .connect('mongodb://localhost/avengerdb', { useNewUrlParser: true }).then(() => {
-  //      console.log("Connected to Database successfully");
-  //  }).catch(() => console.log("Error: " + err)); //returing promise
+mongoose.set('strictQuery', true);
+mongoose
+   .connect('mongodb://localhost/avengerdb', { useNewUrlParser: true }).then(() => {
+       console.log("Connected to Database successfully");
+   }).catch(() => console.log("Error: " + err)); //returing promise
 
 
- mongoose.connect(process.env.CUSTOMCONNSTR_MyConnectionString || database.localUrl);
+ //mongoose.connect(process.env.CUSTOMCONNSTR_MyConnectionString || database.localUrl);
